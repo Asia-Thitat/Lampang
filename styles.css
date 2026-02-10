@@ -417,4 +417,104 @@ footer {
     }
 
     .section-title { font-size: 28px; }
+
+}
+/* ========== เพิ่มเติมส่วน Auto Resize และ Responsive ========== */
+
+/* 1. ปรับปรุงรูปภาพให้ Resize อัตโนมัติทุกจุด */
+img {
+    max-width: 100%;
+    height: auto; /* รักษา Aspect Ratio */
+    display: block;
+}
+
+/* 2. ระบบ Container ที่ยืดหยุ่น */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5%; /* ใช้ % เพื่อให้มีพื้นที่ว่างข้างขอบเสมอเมื่อจอเล็กลง */
+    width: 100%;
+}
+
+/* 3. ปรับปรุง Hero Section ให้รองรับจอทุกขนาด */
+.hero {
+    min-height: 500px; /* ใช้ min-height แทน height ตายตัว */
+    height: auto;
+    padding: 60px 20px;
+    background-attachment: scroll; /* ป้องกันปัญหากับ browser มือถือบางรุ่น */
+}
+
+/* 4. ใช้ Clamp สำหรับ Font Size (Auto Resize ตัวอักษรตามขนาดจอ) */
+/* สูตร: clamp(ขนาดเล็กสุด, ขนาดที่แปรผันตามจอ, ขนาดใหญ่สุด) */
+.hero-content h2 {
+    font-size: clamp(28px, 5vw, 48px);
+}
+
+.hero-content p {
+    font-size: clamp(16px, 3vw, 24px);
+}
+
+.section-title {
+    font-size: clamp(24px, 4vw, 36px);
+}
+
+/* 5. ปรับ Layout ของ Content ให้ Auto Stack */
+.content-wrapper, 
+.attraction-item {
+    flex-wrap: wrap; /* ให้ Item ตกลงมาด้านล่างเมื่อพื้นที่ไม่พอ */
+}
+
+.content-text, 
+.content-image, 
+.attraction-image, 
+.attraction-content {
+    flex: 1 1 400px; /* ขนาดพื้นฐาน 400px ถ้าเล็กกว่านั้นจะหดหรือขึ้นบรรทัดใหม่ */
+}
+
+/* 6. Gallery ปรับจำนวน Column อัตโนมัติ */
+.gallery {
+    display: grid;
+    /* จัด Column อัตโนมัติ: ถ้าพื้นที่พอจะขึ้น 300px ต่ออัน ถ้าไม่พอจะลดจำนวน Column ลงเอง */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 15px;
+}
+
+/* 7. ปรับปรุง Media Queries เดิมให้ครอบคลุม */
+@media (max-width: 992px) {
+    .content-wrapper, 
+    .attraction-item, 
+    .attraction-item.reverse {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .content-text, .attraction-content {
+        text-align: left;
+    }
+}
+
+@media (max-width: 600px) {
+    nav ul {
+        gap: 5px;
+    }
+    
+    nav ul li a {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .contact-container {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%; /* ปุ่มเต็มจอในมือถือ */
+        text-align: center;
+    }
+}
+
+/* 8. ปรับปรุง Footer ให้ไหลตามจอ */
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
